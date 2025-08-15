@@ -4,6 +4,7 @@
   "description": "Type-safe file system operations with compile-time path validation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/index.ts",
