@@ -14,7 +14,18 @@
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.{ts,js,json}\" \"*.{ts,js,json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,js,json}\" \"*.{ts,js,json,md}\"",
-    "prepublishOnly": "npm run lint && npm run format:check && npm run build"
+    "clean": "rm -rf dist",
+    "prebuild": "pnpm run clean",
+    "prepublishOnly": "pnpm run pre-publish",
+    "pre-publish": "pnpm run test:run && pnpm run lint && pnpm run format:check && pnpm run build && pnpm run verify-package",
+    "verify-package": "pnpm pack --dry-run",
+    "postpublish": "pnpm run post-publish",
+    "post-publish": "pnpm run create-git-tag && pnpm run create-github-release",
+    "create-git-tag": "git tag v$(node -p \"require('./package.json').version\") && git push origin v$(node -p \"require('./package.json').version\")",
+    "create-github-release": "echo 'Creating GitHub release...' && gh release create v$(node -p \"require('./package.json').version\") --generate-notes --title \"Release v$(node -p \"require('./package.json').version\")",
+    "release": "pnpm version patch && pnpm publish",
+    "release:minor": "pnpm version minor && pnpm publish",
+    "release:major": "pnpm version major && pnpm publish"
   },
   "files": [
     "dist/**/*",
@@ -27,11 +38,13 @@
     "filesystem",
     "type-safety",
     "static-analysis",
-    "path-validation"
+    "path-validation",
+    "linter",
+    "file-system",
+    "path-validation",
+    "typescript-plugin"
   ],
-  "dependencies": {
-    "typescript": "^5.9.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^8.39.1",
@@ -40,6 +53,7 @@
     "eslint": "^9.33.0",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   },
   "engines": {
@@ -49,5 +63,8 @@
     "type": "git",
     "url": "https://github.com/JamisonHolt/linted-paths.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
