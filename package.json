@@ -22,8 +22,8 @@
     "verify-package": "pnpm pack",
     "postpublish": "pnpm run post-publish",
     "post-publish": "pnpm run create-git-tag && pnpm run create-github-release",
-    "create-git-tag": "git tag v$(node -p \"require('./package.json').version\") && git push origin v$(node -p \"require('./package.json').version\")",
-    "create-github-release": "echo 'Creating GitHub release...' && gh release create v$(node -p \"require('./package.json').version\") --generate-notes --title \"Release v$(node -p \"require('./package.json').version\")",
+    "create-git-tag": "git tag v$(node -p \"require('./package.json').version\") 2>/dev/null || echo 'Tag already exists' && git push origin v$(node -p \"require('./package.json').version\") 2>/dev/null || echo 'Tag already pushed'",
+    "create-github-release": "echo 'Creating GitHub release...' && gh release create v$(node -p \"require('./package.json').version\") --generate-notes --title \"Release v$(node -p \"require('./package.json').version\")\" || echo 'GitHub release creation failed or already exists'",
     "release": "npm version patch && pnpm publish",
     "release:minor": "npm version minor && pnpm publish",
     "release:major": "npm version major && pnpm publish"
