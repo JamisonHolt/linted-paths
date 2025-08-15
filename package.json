@@ -19,7 +19,7 @@
     "prebuild": "pnpm run clean",
     "prepublishOnly": "pnpm run pre-publish",
     "pre-publish": "pnpm run test:run && pnpm run lint && pnpm run format:check && pnpm run build && pnpm run verify-package",
-    "verify-package": "pnpm pack --dry-run",
+    "verify-package": "pnpm publish --dry-run",
     "postpublish": "pnpm run post-publish",
     "post-publish": "pnpm run create-git-tag && pnpm run create-github-release",
     "create-git-tag": "git tag v$(node -p \"require('./package.json').version\") && git push origin v$(node -p \"require('./package.json').version\")",
