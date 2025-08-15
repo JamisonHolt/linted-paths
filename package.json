@@ -19,14 +19,14 @@
     "prebuild": "pnpm run clean",
     "prepublishOnly": "pnpm run pre-publish",
     "pre-publish": "pnpm run test:run && pnpm run lint && pnpm run format:check && pnpm run build && pnpm run verify-package",
-    "verify-package": "pnpm publish --dry-run",
+    "verify-package": "pnpm pack",
     "postpublish": "pnpm run post-publish",
     "post-publish": "pnpm run create-git-tag && pnpm run create-github-release",
     "create-git-tag": "git tag v$(node -p \"require('./package.json').version\") && git push origin v$(node -p \"require('./package.json').version\")",
     "create-github-release": "echo 'Creating GitHub release...' && gh release create v$(node -p \"require('./package.json').version\") --generate-notes --title \"Release v$(node -p \"require('./package.json').version\")",
-    "release": "pnpm version patch && pnpm publish",
-    "release:minor": "pnpm version minor && pnpm publish",
-    "release:major": "pnpm version major && pnpm publish"
+    "release": "npm version patch && pnpm publish",
+    "release:minor": "npm version minor && pnpm publish",
+    "release:major": "npm version major && pnpm publish"
   },
   "files": [
     "dist/**/*",
