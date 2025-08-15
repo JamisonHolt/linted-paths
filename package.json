@@ -45,8 +45,8 @@
     "path-validation",
     "typescript-plugin"
   ],
-  "dependencies": {},
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
     "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^8.39.1",
     "@typescript-eslint/parser": "^8.39.1",
