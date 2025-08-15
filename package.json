@@ -1,0 +1,53 @@
+{
+  "name": "linted-paths",
+  "version": "1.0.0",
+  "description": "Type-safe file system operations with compile-time path validation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.{ts,js,json}\" \"*.{ts,js,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json}\" \"*.{ts,js,json,md}\"",
+    "prepublishOnly": "npm run lint && npm run format:check && npm run build"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "linted-paths",
+    "typescript",
+    "filesystem",
+    "type-safety",
+    "static-analysis",
+    "path-validation"
+  ],
+  "dependencies": {
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.33.0",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JamisonHolt/linted-paths.git"
+  },
+  "license": "MIT"
+}
