@@ -196,8 +196,8 @@ export function createPathLinterPlugin(options: LinterOptions = {}): ts.server.P
             };
           }
           
-          // Return original property
-          return (target as any)[prop];
+          // Return original property using proper typing
+          return Reflect.get(target, prop);
         }
       });
     }

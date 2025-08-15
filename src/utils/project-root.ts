@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import process from 'process';
 
 /**
  * Finds the project root by looking for common markers

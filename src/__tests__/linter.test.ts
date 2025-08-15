@@ -3,6 +3,7 @@ import * as ts from 'typescript';
 import { PathLinter, createPathLinterPlugin } from '../linter';
 import fs from 'fs';
 import path from 'path';
+import process from 'process';
 
 describe('PathLinter', () => {
   let tempDir: string;
@@ -55,13 +56,6 @@ describe('PathLinter', () => {
       const program = createTestProgram(sourceCode);
       const linter = new PathLinter(program);
       const diagnostics = linter.run();
-      
-      // Debug: Let's see what's happening
-      console.log('Source code:', sourceCode);
-      console.log('Project root:', process.cwd());
-      console.log('Resolved path:', path.resolve(process.cwd(), 'src/nonexistent-file.ts'));
-      console.log('Path exists:', fs.existsSync(path.resolve(process.cwd(), 'src/nonexistent-file.ts')));
-      console.log('Diagnostics:', diagnostics);
       
       expect(diagnostics).toHaveLength(1);
       expect(diagnostics[0].messageText).toContain('does not exist');
@@ -169,6 +163,7 @@ describe('PathLinter', () => {
         languageService: {
           getProgram: () => createTestProgram()
         }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any;
       
       const pluginInstance = plugin.create(mockInfo);

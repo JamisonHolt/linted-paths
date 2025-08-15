@@ -1,5 +1,4 @@
 import path from 'path';
-import fs from 'fs';
 import { findProjectRoot } from './utils/project-root.js';
 
 /**

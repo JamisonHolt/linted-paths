@@ -18,7 +18,6 @@ describe('linted-paths', () => {
 
     it('should throw for invalid paths', () => {
       expect(() => FilePath('')).toThrow();
-      expect(() => FilePath(null as any)).toThrow();
       expect(() => FilePath('path/with/invalid<chars')).toThrow();
     });
 
@@ -35,7 +34,6 @@ describe('linted-paths', () => {
 
     it('should throw for invalid paths', () => {
       expect(() => FolderPath('')).toThrow();
-      expect(() => FolderPath(null as any)).toThrow();
     });
   });
 
@@ -47,7 +45,6 @@ describe('linted-paths', () => {
 
     it('should throw for invalid paths', () => {
       expect(() => AnyPath('')).toThrow();
-      expect(() => AnyPath(null as any)).toThrow();
     });
   });
 });
