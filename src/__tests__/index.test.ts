@@ -48,4 +48,3 @@ describe('linted-paths', () => {
     });
   });
 });
-

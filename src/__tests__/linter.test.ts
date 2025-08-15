@@ -15,7 +15,7 @@ describe('PathLinter', () => {
     tempDir = fs.mkdtempSync(path.join(process.cwd(), 'test-'));
     testFilePath = path.join(tempDir, 'test-file.txt');
     testFolderPath = path.join(tempDir, 'test-folder');
-    
+
     fs.writeFileSync(testFilePath, 'test content');
     fs.mkdirSync(testFolderPath);
   });
@@ -39,11 +39,11 @@ describe('PathLinter', () => {
         type FilePathStr = string;
         const validPath: FilePathStr = '${path.relative(process.cwd(), testFilePath)}';
       `;
-      
+
       const program = createTestProgram(sourceCode);
       const linter = new PathLinter(program);
       const diagnostics = linter.run();
-      
+
       expect(diagnostics).toHaveLength(0);
     });
 
@@ -52,11 +52,11 @@ describe('PathLinter', () => {
         type FilePathStr = string;
         const invalidPath: FilePathStr = 'src/nonexistent-file.ts';
       `;
-      
+
       const program = createTestProgram(sourceCode);
       const linter = new PathLinter(program);
       const diagnostics = linter.run();
-      
+
       expect(diagnostics).toHaveLength(1);
       expect(diagnostics[0].messageText).toContain('does not exist');
     });
@@ -66,11 +66,11 @@ describe('PathLinter', () => {
         type FolderPathStr = string;
         const validFolder: FolderPathStr = '${path.relative(process.cwd(), testFolderPath)}';
       `;
-      
+
       const program = createTestProgram(sourceCode);
       const linter = new PathLinter(program);
       const diagnostics = linter.run();
-      
+
       expect(diagnostics).toHaveLength(0);
     });
 
@@ -79,11 +79,11 @@ describe('PathLinter', () => {
         type FolderPathStr = string;
         const invalidFolder: FolderPathStr = 'src/nonexistent-folder';
       `;
-      
+
       const program = createTestProgram(sourceCode);
       const linter = new PathLinter(program);
       const diagnostics = linter.run();
-      
+
       expect(diagnostics).toHaveLength(1);
       expect(diagnostics[0].messageText).toContain('does not exist');
     });
@@ -94,11 +94,11 @@ describe('PathLinter', () => {
         const validPath: AnyPathStr = '${path.relative(process.cwd(), testFilePath)}';
         const validFolder: AnyPathStr = '${path.relative(process.cwd(), testFolderPath)}';
       `;
-      
+
       const program = createTestProgram(sourceCode);
       const linter = new PathLinter(program);
       const diagnostics = linter.run();
-      
+
       expect(diagnostics).toHaveLength(0);
     });
 
@@ -107,11 +107,11 @@ describe('PathLinter', () => {
         type FilePathStr = string;
         const invalidPath: FilePathStr = 'src/file<with>invalid:chars.txt';
       `;
-      
+
       const program = createTestProgram(sourceCode);
       const linter = new PathLinter(program);
       const diagnostics = linter.run();
-      
+
       expect(diagnostics).toHaveLength(1);
     });
 
@@ -120,15 +120,15 @@ describe('PathLinter', () => {
         type FilePathStr = string;
         const invalidPath: FilePathStr = 'src/nonexistent-file.ts';
       `;
-      
+
       const program = createTestProgram(sourceCode);
-      
+
       // Test warn severity
       const warnLinter = new PathLinter(program, { severity: 'warn' });
       const warnDiagnostics = warnLinter.run();
       expect(warnDiagnostics).toHaveLength(1);
       expect(warnDiagnostics[0].category).toBe(ts.DiagnosticCategory.Warning);
-      
+
       // Test off severity
       const offLinter = new PathLinter(program, { severity: 'off' });
       const offDiagnostics = offLinter.run();
@@ -141,11 +141,11 @@ describe('PathLinter', () => {
         const normalString: string = 'src/some-file.ts';
         const numberValue: number = 42;
       `;
-      
+
       const program = createTestProgram(sourceCode);
       const linter = new PathLinter(program);
       const diagnostics = linter.run();
-      
+
       expect(diagnostics).toHaveLength(0);
     });
   });
@@ -161,11 +161,11 @@ describe('PathLinter', () => {
       const plugin = createPathLinterPlugin();
       const mockInfo = {
         languageService: {
-          getProgram: () => createTestProgram()
-        }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          getProgram: () => createTestProgram(),
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any;
-      
+
       const pluginInstance = plugin.create(mockInfo);
       expect(pluginInstance.getSemanticDiagnostics).toBeDefined();
     });
@@ -185,17 +185,17 @@ function createTestProgram(sourceCode?: string): ts.Program {
     skipLibCheck: true,
   };
 
-  const sourceFile = sourceCode 
+  const sourceFile = sourceCode
     ? ts.createSourceFile('test.ts', sourceCode, ts.ScriptTarget.ES2020)
     : ts.createSourceFile('test.ts', '', ts.ScriptTarget.ES2020);
 
   const program = ts.createProgram(['test.ts'], compilerOptions, {
-    getSourceFile: (fileName) => fileName === 'test.ts' ? sourceFile : undefined,
+    getSourceFile: (fileName) => (fileName === 'test.ts' ? sourceFile : undefined),
     writeFile: () => {},
     getCurrentDirectory: () => process.cwd(),
     getDirectories: () => [],
     fileExists: (fileName) => fileName === 'test.ts',
-    readFile: (fileName) => fileName === 'test.ts' ? sourceCode || '' : undefined,
+    readFile: (fileName) => (fileName === 'test.ts' ? sourceCode || '' : undefined),
     getDefaultLibFileName: () => 'lib.d.ts',
     getCanonicalFileName: (fileName) => fileName,
     useCaseSensitiveFileNames: () => false,

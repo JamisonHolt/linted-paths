@@ -53,22 +53,22 @@ function validatePath(pathStr: string, errorMessage: string): void {
   if (typeof pathStr !== 'string') {
     throw new Error(errorMessage);
   }
-  
+
   if (!pathStr.trim()) {
     throw new Error(errorMessage);
   }
-  
+
   // Check for invalid characters
   const invalidChars = /[<>:"|?*\x00-\x1f]/;
   if (invalidChars.test(pathStr)) {
     throw new Error(`${errorMessage}: contains invalid characters`);
   }
-  
+
   // For relative paths, ensure they don't escape project root
   if (pathStr.startsWith('./') || pathStr.startsWith('../')) {
     const resolvedPath = path.resolve(getProjectRoot(), pathStr);
     const projectRoot = getProjectRoot();
-    
+
     if (!resolvedPath.startsWith(projectRoot)) {
       throw new Error(`${errorMessage}: path escapes project root`);
     }

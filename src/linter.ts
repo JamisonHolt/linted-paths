@@ -25,13 +25,13 @@ export class PathLinter {
    */
   run(): ts.Diagnostic[] {
     const diagnostics: ts.Diagnostic[] = [];
-    
+
     for (const sourceFile of this.program.getSourceFiles()) {
       if (!sourceFile.isDeclarationFile) {
         diagnostics.push(...this.checkFile(sourceFile));
       }
     }
-    
+
     return diagnostics;
   }
 
@@ -40,7 +40,7 @@ export class PathLinter {
    */
   public checkFile(sourceFile: ts.SourceFile): ts.Diagnostic[] {
     const diagnostics: ts.Diagnostic[] = [];
-    
+
     const visit = (node: ts.Node) => {
       if (ts.isVariableDeclaration(node) && node.initializer) {
         const diagnostic = this.checkVariableDeclaration(node);
@@ -48,10 +48,10 @@ export class PathLinter {
           diagnostics.push(diagnostic);
         }
       }
-      
+
       ts.forEachChild(node, visit);
     };
-    
+
     visit(sourceFile);
     return diagnostics;
   }
@@ -75,7 +75,7 @@ export class PathLinter {
     }
 
     const pathValue = node.initializer!.text;
-    
+
     if (!this.isValidPath(pathValue)) {
       return {
         category: this.getSeverityCategory(),
@@ -113,7 +113,7 @@ export class PathLinter {
       // For qualified names like 'linted-paths.FilePathStr', get the last part
       return this.getTypeNameFromAST(typeName.right);
     }
-    
+
     return '';
   }
 
@@ -176,7 +176,7 @@ export function createPathLinterPlugin(options: LinterOptions = {}): ts.server.P
   return {
     create(info) {
       const linter = new PathLinter(info.languageService.getProgram()!, options);
-      
+
       // Create a proxy that extends the original language service
       return new Proxy(info.languageService, {
         get(target, prop) {
@@ -184,22 +184,22 @@ export function createPathLinterPlugin(options: LinterOptions = {}): ts.server.P
             return (fileName: string) => {
               // Get original diagnostics
               const originalDiagnostics = target.getSemanticDiagnostics(fileName);
-              
+
               // Get our custom diagnostics
               const sourceFile = info.languageService.getProgram()!.getSourceFile(fileName);
               if (!sourceFile) return originalDiagnostics;
-              
+
               const customDiagnostics = linter.checkFile(sourceFile);
-              
+
               // Combine diagnostics
               return [...originalDiagnostics, ...customDiagnostics];
             };
           }
-          
+
           // Return original property using proper typing
           return Reflect.get(target, prop);
-        }
+        },
       });
-    }
+    },
   };
 }

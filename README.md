@@ -156,6 +156,7 @@ Configure the linter with a single rule:
 This rule validates that string literals assigned to `FilePathStr`, `FolderPathStr`, and `AnyPathStr` types correspond to real paths in your project.
 
 **What it checks:**
+
 - File paths assigned to `FilePathStr` exist as files
 - Folder paths assigned to `FolderPathStr` exist as directories
 - Any paths assigned to `AnyPathStr` exist as either files or directories
@@ -163,6 +164,7 @@ This rule validates that string literals assigned to `FilePathStr`, `FolderPathS
 - Paths use valid characters and format
 
 **Severity levels:**
+
 - `"error"` - Treats invalid paths as compilation errors
 - `"warn"` - Shows warnings for invalid paths but doesn't fail compilation
 - `"off"` - Disables path validation entirely
@@ -172,7 +174,7 @@ This rule validates that string literals assigned to `FilePathStr`, `FolderPathS
 ### Type Aliases (Static Analysis)
 
 - `FilePathStr` - Type alias for file paths that the linter will validate
-- `FolderPathStr` - Type alias for folder paths that the linter will validate  
+- `FolderPathStr` - Type alias for folder paths that the linter will validate
 - `AnyPathStr` - Type alias for any path (file or folder) that the linter will validate
 
 ### Runtime Functions
@@ -217,6 +219,7 @@ MIT
 ## Roadmap
 
 ### Phase 1: Core Implementation
+
 - [ ] Implement basic linter that validates string literals assigned to type aliases
 - [ ] Create runtime validation functions (`FilePath`, `FolderPath`, `AnyPath`)
 - [ ] Implement project root detection
@@ -225,6 +228,7 @@ MIT
 - [ ] Create TypeScript type definitions
 
 ### Phase 2: Linter Enhancement
+
 - [ ] Add support for different severity levels (error, warn, off)
 - [ ] Implement configuration system for the `validate-paths` rule
 - [ ] Add support for relative and absolute path validation
@@ -232,6 +236,7 @@ MIT
 - [ ] Add support for path format validation (invalid characters, etc.)
 
 ### Phase 3: Testing & Documentation
+
 - [ ] Create comprehensive test suite for linter rules
 - [ ] Add tests for runtime validation functions
 - [ ] Create integration tests with TypeScript compiler
@@ -239,6 +244,7 @@ MIT
 - [ ] Add troubleshooting guide for common issues
 
 ### Phase 4: Performance & Stability
+
 - [ ] Optimize linter performance for large projects
 - [ ] Add caching for file system checks
 - [ ] Implement incremental validation

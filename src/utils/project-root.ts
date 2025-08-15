@@ -7,7 +7,7 @@ import process from 'process';
  */
 export function findProjectRoot(startDir?: string): string {
   let currentDir = startDir || process.cwd();
-  
+
   const markers = [
     '.git',
     'package.json',
@@ -18,7 +18,7 @@ export function findProjectRoot(startDir?: string): string {
     'nx.json',
     'workspace.json',
   ];
-  
+
   while (currentDir !== path.dirname(currentDir)) {
     for (const marker of markers) {
       if (fs.existsSync(path.join(currentDir, marker))) {
@@ -27,8 +27,10 @@ export function findProjectRoot(startDir?: string): string {
     }
     currentDir = path.dirname(currentDir);
   }
-  
-  throw new Error('Could not find project root. Make sure you are in a project directory with package.json or .git');
+
+  throw new Error(
+    'Could not find project root. Make sure you are in a project directory with package.json or .git',
+  );
 }
 
 /**
