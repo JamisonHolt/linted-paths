@@ -1,6 +1,15 @@
 # linted-paths
 
-A TypeScript linter for static analysis of file system operations with complementary runtime validation functions. The goal is to make scripts more stable with less testing required by ensuring all path operations are statically analyzed and validated using named types.
+**⚠️ EXPERIMENTAL PROJECT - WORK IN PROGRESS ⚠️**
+
+This is an experimental TypeScript linter for static analysis of file system operations with complementary runtime validation functions. I vibed this up as a starting point to test in a different project and will probably make a ton of changes in the future as I discover bugs.
+AI is pretty terrible at "thinking" of edge cases, so I expect most edge cases to be unhandled
+
+**Important Notes:**
+- This package is currently **untested** and **AI-written**
+- It is in active development and may have bugs or incomplete features
+- Not recommended for production use until proper testing and validation
+- The API may change significantly between versions
 
 ## Overview
 
@@ -9,7 +18,7 @@ A TypeScript linter for static analysis of file system operations with complemen
 1. **Static Analysis (Linter)**: Uses named types to identify and analyze file system operations at compile time
 2. **Runtime Validation**: Provides runtime functions to validate paths and throw descriptive errors
 
-This dual approach helps developers write more reliable file system operations by:
+This dual approach aims to help developers write more reliable file system operations by:
 
 - Using named types to identify and target specific file system operations
 - Validating file paths before they're used (both statically and at runtime)
@@ -119,22 +128,6 @@ const folder = FolderPath('./src/components', 'Components directory not found');
 
 // Any path with custom error
 const anyPath = AnyPath('./src/utils/helpers.ts', 'Helper utilities file missing');
-```
-
-## TypeScript Configuration
-
-Add to your `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "plugins": [
-      {
-        "name": "linted-paths"
-      }
-    ]
-  }
-}
 ```
 
 ### Linter Configuration
