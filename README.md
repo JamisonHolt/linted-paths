@@ -6,6 +6,7 @@ This is an experimental TypeScript linter for static analysis of file system ope
 AI is pretty terrible at "thinking" of edge cases, so I expect most edge cases to be unhandled
 
 **Important Notes:**
+
 - This package is currently **untested** and **AI-written**
 - It is in active development and may have bugs or incomplete features
 - Not recommended for production use until proper testing and validation
